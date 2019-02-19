@@ -7,6 +7,7 @@
  ****************************************************************/
 function getBookById(bookId, books) {
   // Your code goes here
+  return books.find(book => bookId === book.id);
 }
 
 /**************************************************************
@@ -18,6 +19,9 @@ function getBookById(bookId, books) {
  ****************************************************************/
 function getAuthorByName(authorName, authors) {
   // Your code goes here
+  return authors.find(
+    author => authorName.toLowerCase() === author.name.toLowerCase()
+  );
 }
 
 /**************************************************************
@@ -28,6 +32,10 @@ function getAuthorByName(authorName, authors) {
  ****************************************************************/
 function bookCountsByAuthor(authors) {
   // Your code goes here
+  return authors.map(author => ({
+    author: author.name,
+    bookCount: author.books.length
+  }));
 }
 
 /**************************************************************
@@ -39,8 +47,13 @@ function bookCountsByAuthor(authors) {
  ****************************************************************/
 function booksByColor(books) {
   const colors = {};
-
-  // Your code goes here
+  books.forEach(book => {
+    if (colors[book.color]) {
+      colors[book.color].push(book.title);
+    } else {
+      colors[book.color] = [book.title];
+    }
+  });
 
   return colors;
 }
@@ -55,6 +68,12 @@ function booksByColor(books) {
  ****************************************************************/
 function titlesByAuthorName(authorName, authors, books) {
   // Your code goes here
+  const author = getAuthorByName(authorName, authors);
+  if (!author) {
+    return [];
+  } else {
+    return author.books.map(bookId => getBookById(bookId, books).title);
+  }
 }
 
 /**************************************************************
@@ -66,6 +85,13 @@ function titlesByAuthorName(authorName, authors, books) {
  ****************************************************************/
 function mostProlificAuthor(authors) {
   // Your code goes here
+  let someGuy = authors[0];
+  authors.forEach(author => {
+    if (author.books.length > someGuy.books.length) {
+      someGuy = author;
+    }
+  });
+  return someGuy.name;
 }
 
 /**************************************************************
