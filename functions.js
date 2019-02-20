@@ -119,6 +119,16 @@ function mostProlificAuthor(authors) {
  ****************************************************************/
 function relatedBooks(bookId, authors, books) {
   // Your code goes here
+  const book = getBookById(bookId, books);
+  const authorsNames = book.authors.map(author => author.name);
+  if (authorsNames.length > 1) {
+    authorsBooks = authorsNames.flatMap(author =>
+      titlesByAuthorName(author, authors, books)
+    );
+    return (authorsBooks = [...new Set(authorsBooks)]);
+  } else {
+    return titlesByAuthorName(authorsNames[0], authors, books);
+  }
 }
 
 /**************************************************************
